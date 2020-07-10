@@ -16,13 +16,13 @@ public class Main {
         switch (param) {
             case VERSION: displayVersion();
             case ABOUT: displayAbout();
-            case HELP: displayHelp();
+            case HELP: displayHelp((byte)0);
             default: displayError(param);
         }
     }
 
     private static void displayVersion() {
-        System.out.println("1.0.0");
+        System.out.println("1.0.0.1");
         System.exit(0);
     }
 
@@ -33,16 +33,17 @@ public class Main {
     }
 
 
-    private static void displayHelp() {
+    private static void displayHelp(final byte exitcode) {
         System.out.println("version - Display application version.");
         System.out.println("about - Display developer info.");
         System.out.println("help - Display list of commands.");
-        System.exit(0);
+        System.exit(exitcode);
     }
 
     private static void displayError(final String errorparam) {
         System.out.println("Error! Unknown [" + errorparam + "] program argument...");
-        System.exit(-1);
+        System.out.println("Try one of this:");
+        displayHelp( (byte)-1);
     }
 
     private static void displayWelcome() {
