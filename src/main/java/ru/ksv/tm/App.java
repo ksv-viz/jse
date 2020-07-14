@@ -2,7 +2,7 @@ package ru.ksv.tm;
 
 import static ru.ksv.tm.constant.TerminalConst.*;
 
-public class Main {
+public class App {
 
     public static void main(final String[] args) {
         run(args);
