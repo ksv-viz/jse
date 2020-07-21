@@ -13,10 +13,21 @@ Product | Version
 
 # Build:
 ```
- mvn clean package install 
+ mvn clean
+```
+```
+ mvn clean package
+```
+```
+ mvn clean install 
 ```
 
 # Run:
+## Windows:
 ```
- java -jar task-manager-1.0.0.jar
+ java -jar <artefact_folder>\task-manager-1.0.0.jar
+```
+## *nix:
+```
+ java -jar <artefact_folder>/task-manager-1.0.0.jar
 ```
