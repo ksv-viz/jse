@@ -1,6 +1,8 @@
 # Task manager:
 * Управление списком задач
 
+[Mirror of the repository on github.com](https://github.com/ksv-viz/jse)
+
 # Software:
 Product | Version
 --- | ---
