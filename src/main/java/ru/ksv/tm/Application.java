@@ -2,7 +2,10 @@ package ru.ksv.tm;
 
 import ru.ksv.tm.dao.ProjectDAO;
 import ru.ksv.tm.dao.TaskDAO;
+import ru.ksv.tm.entity.Project;
+import ru.ksv.tm.entity.Task;
 
+import java.time.chrono.MinguoDate;
 import java.util.Scanner;
 
 import static ru.ksv.tm.constant.TerminalConst.*;
@@ -14,6 +17,17 @@ public class Application {
     private static final TaskDAO taskDAO = new TaskDAO();
 
     private static final Scanner scanner = new Scanner(System.in);
+
+    static {
+        projectDAO.create("PROJECT 1");
+        projectDAO.create("PROJECT 2");
+        projectDAO.create("PROJECT 3");
+        projectDAO.create("PROJECT 4");
+        taskDAO.create("TASK 1");
+        taskDAO.create("TASK 2");
+        taskDAO.create("TASK 3");
+        taskDAO.create("TASK 4");
+    }
 
     public static void main(final String[] args) {
         run(args);
@@ -114,71 +128,161 @@ public class Application {
 
     private static int listProject() {
         System.out.println("[LIST PROJECT]");
-        System.out.println(projectDAO.findAll());
+        int index = 1;
+        for (final Project project : projectDAO.findAll()) {
+            System.out.println(index + ". " + project.getId() + ": " + project.getName());
+            index++;
+        }
         System.out.println("[OK]");
         return 0;
     }
 
-    private static int viewProjectById() {
-        System.out.println("[VIEW PROJECT BY ID]");
-
+    private static void viewProject(final Project project) {
+        if (project == null) return;
+        System.out.println("[VIEW PROJECT]");
+        System.out.println("ID: " + project.getId());
+        System.out.println("NAME: " + project.getName());
+        System.out.println("DESCRIPTION: " + project.getDescription());
         System.out.println("[OK]");
+    }
+
+    private static int viewProjectById() {
+        System.out.println("[ENTER, PROJECT ID]");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long id = scanner.nextLong();
+        final Project project = projectDAO.findById(id);
+        viewProject(project);
         return 0;
     }
 
     private static int viewProjectByIndex() {
-        System.out.println("[VIEW PROJECT BY INDEX]");
-
-        System.out.println("[OK]");
+        System.out.println("[ENTER, PROJECT INDEX]");
+        if (!scanner.hasNextInt()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final int index = scanner.nextInt() - 1;
+        final Project project = projectDAO.findByIndex(index);
+        viewProject(project);
         return 0;
     }
 
     private static int viewProjectByName() {
-        System.out.println("[VIEW PROJECT BY NAME]");
-
-        System.out.println("[OK]");
+        System.out.println("[ENTER, PROJECT NAME]");
+        final String name = scanner.nextLine();
+        final Project project = projectDAO.findByName(name);
+        viewProject(project);
         return 0;
     }
 
     private static int updateProjectById() {
         System.out.println("[UPDATE PROJECT BY ID]");
-
+        System.out.println("PLEASE, ENTER PROJECT ID");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long id = scanner.nextLong();
+        scanner.nextLine();
+        final Project project = projectDAO.findById(id);
+        if (project == null) {
+            System.out.println("[FAIL]");
+            return 0;
+        }
+        System.out.println("PLEASE, ENTER PROJECT NAME:");
+        final String name = scanner.nextLine();
+        System.out.println("PLEASE, ENTER PROJECT DESCRIPTION:");
+        final String description = scanner.nextLine();
+        projectDAO.update(project.getId(), name, description);
         System.out.println("[OK]");
         return 0;
     }
 
     private static int updateProjectByIndex() {
         System.out.println("[UPDATE PROJECT BY INDEX]");
-
+        System.out.println("PLEASE, ENTER PROJECT INDEX");
+        if (!scanner.hasNextInt()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final int index = scanner.nextInt() - 1;
+        scanner.nextLine();
+        final Project project = projectDAO.findByIndex(index);
+        if (project == null) {
+            System.out.println("[FAIL]");
+            return 0;
+        }
+        System.out.println("PLEASE, ENTER PROJECT NAME:");
+        final String name = scanner.nextLine();
+        System.out.println("PLEASE, ENTER PROJECT DESCRIPTION:");
+        final String description = scanner.nextLine();
+        projectDAO.update(project.getId(), name, description);
         System.out.println("[OK]");
         return 0;
     }
 
     private static int updateProjectByName() {
         System.out.println("[UPDATE PROJECT BY NAME]");
-
+        System.out.println("PLEASE, ENTER PROJECT NAME");
+        final String findingName = scanner.nextLine();
+        final Project project = projectDAO.findByName(findingName);
+        if (project == null) {
+            System.out.println("[FAIL]");
+            return 0;
+        }
+        System.out.println("PLEASE, ENTER TASK NAME:");
+        final String name = scanner.nextLine();
+        System.out.println("PLEASE, ENTER TASK DESCRIPTION:");
+        final String description = scanner.nextLine();
+        projectDAO.update(project.getId(), name, description);
         System.out.println("[OK]");
         return 0;
     }
 
     private static int removeProjectById() {
         System.out.println("[REMOVE PROJECT BY ID]");
-
-        System.out.println("[OK]");
+        System.out.println("PLEASE, ENTER PROJECT ID");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long id = scanner.nextLong();
+        final Project project = projectDAO.removeById(id);
+        if (project == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
         return 0;
     }
 
     private static int removeProjectByIndex() {
         System.out.println("[REMOVE PROJECT BY INDEX]");
-
-        System.out.println("[OK]");
+        System.out.println("PLEASE, ENTER PROJECT INDEX");
+        if (!scanner.hasNextInt()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final int index = scanner.nextInt() - 1;
+        final Project project = projectDAO.removeByIndex(index);
+        if (project == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
         return 0;
     }
 
     private static int removeProjectByName() {
         System.out.println("[REMOVE PROJECT BY NAME]");
-
-        System.out.println("[OK]");
+        System.out.println("PLEASE, ENTER PROJECT NAME");
+        final String name = scanner.nextLine();
+        final Project project = projectDAO.removeByName(name);
+        if (project == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
         return 0;
     }
 
@@ -200,71 +304,161 @@ public class Application {
 
     private static int listTask() {
         System.out.println("[LIST TASK]");
-        System.out.println(taskDAO.findAll());
+        int index = 1;
+        for (final Task task : taskDAO.findAll()) {
+            System.out.println(index + ". " + task.getId() + ": " + task.getName());
+            index++;
+        }
         System.out.println("[OK]");
         return 0;
     }
 
-    private static int viewTaskById() {
-        System.out.println("[VIEW TASK BY ID]");
-
+    private static void viewTask(final Task task) {
+        if (task == null) return;
+        System.out.println("[VIEW TASK]");
+        System.out.println("ID: " + task.getId());
+        System.out.println("NAME: " + task.getName());
+        System.out.println("DESCRIPTION: " + task.getDescription());
         System.out.println("[OK]");
+    }
+
+    private static int viewTaskById() {
+        System.out.println("[ENTER, TASK ID]");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long id = scanner.nextLong();
+        final Task task = taskDAO.findById(id);
+        viewTask(task);
         return 0;
     }
 
     private static int viewTaskByIndex() {
-        System.out.println("[VIEW TASK BY INDEX]");
-
-        System.out.println("[OK]");
+        System.out.println("[ENTER, TASK INDEX]");
+        if (!scanner.hasNextInt()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final int index = scanner.nextInt() - 1;
+        final Task task = taskDAO.findByIndex(index);
+        viewTask(task);
         return 0;
     }
 
     private static int viewTaskByName() {
-        System.out.println("[VIEW TASK BY NAME]");
-
-        System.out.println("[OK]");
+        System.out.println("[ENTER, TASK NAME]");
+        final String name = scanner.nextLine();
+        final Task task = taskDAO.findByName(name);
+        viewTask(task);
         return 0;
     }
 
     private static int updateTaskById() {
         System.out.println("[UPDATE TASK BY ID]");
-
+        System.out.println("PLEASE, ENTER TASK ID");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long id = scanner.nextLong();
+        scanner.nextLine();
+        final Task task = taskDAO.findById(id);
+        if (task == null) {
+            System.out.println("[FAIL]");
+            return 0;
+        }
+        System.out.println("PLEASE, ENTER TASK NAME:");
+        final String name = scanner.nextLine();
+        System.out.println("PLEASE, ENTER TASK DESCRIPTION:");
+        final String description = scanner.nextLine();
+        taskDAO.update(task.getId(), name, description);
         System.out.println("[OK]");
         return 0;
     }
 
     private static int updateTaskByIndex() {
         System.out.println("[UPDATE TASK BY INDEX]");
-
+        System.out.println("PLEASE, ENTER TASK INDEX");
+        if (!scanner.hasNextInt()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final int index = scanner.nextInt() - 1;
+        scanner.nextLine();
+        final Task task = taskDAO.findByIndex(index);
+        if (task == null) {
+            System.out.println("[FAIL]");
+            return 0;
+        }
+        System.out.println("PLEASE, ENTER TASK NAME:");
+        final String name = scanner.nextLine();
+        System.out.println("PLEASE, ENTER TASK DESCRIPTION:");
+        final String description = scanner.nextLine();
+        taskDAO.update(task.getId(), name, description);
         System.out.println("[OK]");
         return 0;
     }
 
     private static int updateTaskByName() {
         System.out.println("[UPDATE TASK BY NAME]");
-
+        System.out.println("PLEASE, ENTER TASK NAME");
+        final String findingName = scanner.nextLine();
+        final Task task = taskDAO.findByName(findingName);
+        if (task == null) {
+            System.out.println("[FAIL]");
+            return 0;
+        }
+        System.out.println("PLEASE, ENTER TASK NAME:");
+        final String name = scanner.nextLine();
+        System.out.println("PLEASE, ENTER TASK DESCRIPTION:");
+        final String description = scanner.nextLine();
+        taskDAO.update(task.getId(), name, description);
         System.out.println("[OK]");
         return 0;
     }
 
     private static int removeTaskById() {
         System.out.println("[REMOVE TASK BY ID]");
-
-        System.out.println("[OK]");
+        System.out.println("PLEASE, ENTER TASK ID");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long id = scanner.nextLong();
+        final Task task = taskDAO.removeById(id);
+        if (task == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
         return 0;
     }
 
     private static int removeTaskByIndex() {
         System.out.println("[REMOVE TASK BY INDEX]");
-
-        System.out.println("[OK]");
+        System.out.println("PLEASE, ENTER TASK INDEX");
+        if (!scanner.hasNextInt()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final int index = scanner.nextInt() - 1;
+        final Task task = taskDAO.removeByIndex(index);
+        if (task == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
         return 0;
     }
 
     private static int removeTaskByName() {
         System.out.println("[REMOVE TASK BY NAME]");
-
-        System.out.println("[OK]");
+        System.out.println("PLEASE, ENTER TASK NAME");
+        final String name = scanner.nextLine();
+        final Task task = taskDAO.removeByName(name);
+        if (task == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
         return 0;
     }
 

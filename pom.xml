@@ -40,7 +40,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>ru.ksv.tm.App</mainClass>
+                            <mainClass>ru.ksv.tm.Application</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
