@@ -8,15 +8,15 @@ public class Task {
 
     private String description = "";
 
-    public Long getId() {
-        return id;
-    }
-
     public Task() {
     }
 
     public Task(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {

@@ -8,15 +8,15 @@ public class Project {
 
     private String description = "";
 
-    public Long getId() {
-        return id;
-    }
-
     public Project() {
     }
 
     public Project(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
