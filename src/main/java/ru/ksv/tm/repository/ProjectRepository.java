@@ -1,13 +1,11 @@
-package ru.ksv.tm.dao;
+package ru.ksv.tm.repository;
 
 import ru.ksv.tm.entity.Project;
-import ru.ksv.tm.entity.Task;
 
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDAO {
+public class ProjectRepository {
 
     private final List<Project> projects = new ArrayList<>();
 
