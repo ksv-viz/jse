@@ -25,7 +25,7 @@ public class ProjectRepository {
 
     public Project update(final Long id, final String name, final String description) {
         final Project project = findById(id);
-        if (project==null)return null;
+        if (project == null) return null;
         project.setId(id);
         project.setName(name);
         project.setDescription(description);
@@ -41,7 +41,6 @@ public class ProjectRepository {
     }
 
     public Project findById(final Long id) {
-        if (id == null) return null;
         for (Project project : projects) {
             if (project.getId().equals(id)) return project;
         }
@@ -49,7 +48,6 @@ public class ProjectRepository {
     }
 
     public Project findByName(final String name) {
-        if (name == null || name.isEmpty()) return null;
         for (Project project : projects) {
             if (project.getName().equals(name)) return project;
         }
@@ -57,7 +55,6 @@ public class ProjectRepository {
     }
 
     public Project findByIndex(final int index) {
-        if (index < 0 || index > projects.size() - 1) return null;
         return projects.get(index);
     }
 

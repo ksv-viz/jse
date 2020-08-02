@@ -15,7 +15,7 @@ public class TaskRepository {
         return task;
     }
 
-    public Task create(final String name,final String description) {
+    public Task create(final String name, final String description) {
         final Task task = new Task();
         task.setName(name);
         task.setDescription(description);
@@ -25,7 +25,7 @@ public class TaskRepository {
 
     public Task update(final Long id, final String name, final String description) {
         final Task task = findById(id);
-        if (task==null)return null;
+        if (task == null) return null;
         task.setId(id);
         task.setName(name);
         task.setDescription(description);
@@ -41,7 +41,6 @@ public class TaskRepository {
     }
 
     public Task findById(final Long id) {
-        if (id == null) return null;
         for (Task task : tasks) {
             if (task.getId().equals(id)) return task;
         }
@@ -49,7 +48,6 @@ public class TaskRepository {
     }
 
     public Task findByName(final String name) {
-        if (name == null || name.isEmpty()) return null;
         for (Task task : tasks) {
             if (task.getName().equals(name)) return task;
         }
@@ -57,7 +55,6 @@ public class TaskRepository {
     }
 
     public Task findByIndex(final int index) {
-        if (index < 0 || index > tasks.size() - 1) return null;
         return tasks.get(index);
     }
 

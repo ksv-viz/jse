@@ -1,10 +1,12 @@
 package ru.ksv.tm;
 
-import ru.ksv.tm.controller.SystemController;
 import ru.ksv.tm.controller.ProjectController;
+import ru.ksv.tm.controller.SystemController;
 import ru.ksv.tm.controller.TaskController;
 import ru.ksv.tm.repository.ProjectRepository;
 import ru.ksv.tm.repository.TaskRepository;
+import ru.ksv.tm.service.ProjectService;
+import ru.ksv.tm.service.TaskService;
 
 import java.util.Scanner;
 
@@ -16,21 +18,27 @@ public class Application {
 
     private final TaskRepository taskRepository = new TaskRepository();
 
-    private final ProjectController projectController = new ProjectController(projectRepository);
+    private final ProjectService projectService = new ProjectService(projectRepository);
 
-    private final TaskController taskController = new TaskController(taskRepository);
+    private final TaskService taskService = new TaskService(taskRepository);
+
+    private final ProjectController projectController = new ProjectController(projectService);
+
+    private final TaskController taskController = new TaskController(taskService);
 
     private final SystemController systemController = new SystemController();
 
     {
-        projectRepository.create("PROJECT 1");
-        projectRepository.create("PROJECT 2");
-        projectRepository.create("PROJECT 3");
-        projectRepository.create("PROJECT 4");
-        taskRepository.create("TASK 1");
-        taskRepository.create("TASK 2");
-        taskRepository.create("TASK 3");
-        taskRepository.create("TASK 4");
+        projectRepository.create("PROJECT 1", "DESCRIPTION 1");
+        projectRepository.create("PROJECT 2", "DESCRIPTION 2");
+        projectRepository.create("PROJECT 3", "DESCRIPTION 3");
+        projectRepository.create("PROJECT 4", "DESCRIPTION 4");
+        projectRepository.create("PROJECT 5", "DESCRIPTION 5");
+        taskRepository.create("TASK 1", "DESCRIPTION 1");
+        taskRepository.create("TASK 2", "DESCRIPTION 2");
+        taskRepository.create("TASK 3", "DESCRIPTION 3");
+        taskRepository.create("TASK 4", "DESCRIPTION 4");
+        taskRepository.create("TASK 5", "DESCRIPTION 5");
     }
 
     public static void main(final String[] args) {

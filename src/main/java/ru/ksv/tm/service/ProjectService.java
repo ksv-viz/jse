@@ -40,26 +40,32 @@ public class ProjectService {
     }
 
     public Project findById(Long id) {
+        if (id == null) return null;
         return projectRepository.findById(id);
     }
 
     public Project findByName(String name) {
+        if (name == null || name.isEmpty()) return null;
         return projectRepository.findByName(name);
     }
 
     public Project findByIndex(int index) {
+        if (index < 0 || index > projectRepository.findAll().size() - 1) return null;
         return projectRepository.findByIndex(index);
     }
 
     public Project removeById(Long id) {
+        if (id == null) return null;
         return projectRepository.removeById(id);
     }
 
     public Project removeByIndex(int index) {
+        if (index < 0 || index > projectRepository.findAll().size() - 1) return null;
         return projectRepository.removeByIndex(index);
     }
 
     public Project removeByName(String name) {
+        if (name == null || name.isEmpty()) return null;
         return projectRepository.removeByName(name);
     }
 }

@@ -2,7 +2,7 @@ package ru.ksv.tm.controller;
 
 import java.util.Scanner;
 
-public class AbstractController {
+public abstract class AbstractController {
 
     protected final Scanner scanner = new Scanner(System.in);
 

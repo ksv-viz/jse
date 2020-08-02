@@ -40,26 +40,32 @@ public class TaskService {
     }
 
     public Task findById(Long id) {
+        if (id == null) return null;
         return taskRepository.findById(id);
     }
 
     public Task findByName(String name) {
+        if (name == null || name.isEmpty()) return null;
         return taskRepository.findByName(name);
     }
 
     public Task findByIndex(int index) {
+        if (index < 0 || index > taskRepository.findAll().size() - 1) return null;
         return taskRepository.findByIndex(index);
     }
 
     public Task removeById(Long id) {
+        if (id == null) return null;
         return taskRepository.removeById(id);
     }
 
     public Task removeByIndex(int index) {
+        if (index < 0 || index > taskRepository.findAll().size() - 1) return null;
         return taskRepository.removeByIndex(index);
     }
 
     public Task removeByName(String name) {
+        if (name == null || name.isEmpty()) return null;
         return taskRepository.removeByName(name);
     }
 }

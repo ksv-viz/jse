@@ -1,28 +1,28 @@
 package ru.ksv.tm.controller;
 
-import ru.ksv.tm.repository.TaskRepository;
 import ru.ksv.tm.entity.Task;
+import ru.ksv.tm.service.TaskService;
 
 public class TaskController extends AbstractController {
 
-    private final TaskRepository taskRepository;
+    private final TaskService taskService;
 
-    public TaskController(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
     }
 
     public int createTask() {
         System.out.println("[CREATE TASK]");
         System.out.println("PLEASE, ENTER TASK NAME:");
         final String name = scanner.nextLine();
-        taskRepository.create(name);
+        taskService.create(name);
         System.out.println("[OK]");
         return 0;
     }
 
     public int clearTask() {
         System.out.println("[CLEAR TASK]");
-        taskRepository.clear();
+        taskService.clear();
         System.out.println("[OK]");
         return 0;
     }
@@ -30,7 +30,7 @@ public class TaskController extends AbstractController {
     public int listTask() {
         System.out.println("[LIST TASK]");
         int index = 1;
-        for (final Task task : taskRepository.findAll()) {
+        for (final Task task : taskService.findAll()) {
             System.out.println(index + ". " + task.getId() + ": " + task.getName());
             index++;
         }
@@ -55,7 +55,7 @@ public class TaskController extends AbstractController {
             return -1;
         }
         final Long id = scanner.nextLong();
-        final Task task = taskRepository.findById(id);
+        final Task task = taskService.findById(id);
         viewTask(task);
         return 0;
     }
@@ -68,7 +68,7 @@ public class TaskController extends AbstractController {
             return -1;
         }
         final int index = scanner.nextInt() - 1;
-        final Task task = taskRepository.findByIndex(index);
+        final Task task = taskService.findByIndex(index);
         viewTask(task);
         return 0;
     }
@@ -76,7 +76,7 @@ public class TaskController extends AbstractController {
     public int viewTaskByName() {
         System.out.println("[ENTER, TASK NAME]");
         final String name = scanner.nextLine();
-        final Task task = taskRepository.findByName(name);
+        final Task task = taskService.findByName(name);
         viewTask(task);
         return 0;
     }
@@ -91,7 +91,7 @@ public class TaskController extends AbstractController {
         }
         final Long id = scanner.nextLong();
         scanner.nextLine();
-        final Task task = taskRepository.findById(id);
+        final Task task = taskService.findById(id);
         if (task == null) {
             System.out.println("[FAIL]");
             return 0;
@@ -100,7 +100,7 @@ public class TaskController extends AbstractController {
         final String name = scanner.nextLine();
         System.out.println("PLEASE, ENTER TASK DESCRIPTION:");
         final String description = scanner.nextLine();
-        taskRepository.update(task.getId(), name, description);
+        taskService.update(task.getId(), name, description);
         System.out.println("[OK]");
         return 0;
     }
@@ -115,7 +115,7 @@ public class TaskController extends AbstractController {
         }
         final int index = scanner.nextInt() - 1;
         scanner.nextLine();
-        final Task task = taskRepository.findByIndex(index);
+        final Task task = taskService.findByIndex(index);
         if (task == null) {
             System.out.println("[FAIL]");
             return 0;
@@ -124,7 +124,7 @@ public class TaskController extends AbstractController {
         final String name = scanner.nextLine();
         System.out.println("PLEASE, ENTER TASK DESCRIPTION:");
         final String description = scanner.nextLine();
-        taskRepository.update(task.getId(), name, description);
+        taskService.update(task.getId(), name, description);
         System.out.println("[OK]");
         return 0;
     }
@@ -133,7 +133,7 @@ public class TaskController extends AbstractController {
         System.out.println("[UPDATE TASK BY NAME]");
         System.out.println("PLEASE, ENTER TASK NAME");
         final String findingName = scanner.nextLine();
-        final Task task = taskRepository.findByName(findingName);
+        final Task task = taskService.findByName(findingName);
         if (task == null) {
             System.out.println("[FAIL]");
             return 0;
@@ -142,7 +142,7 @@ public class TaskController extends AbstractController {
         final String name = scanner.nextLine();
         System.out.println("PLEASE, ENTER TASK DESCRIPTION:");
         final String description = scanner.nextLine();
-        taskRepository.update(task.getId(), name, description);
+        taskService.update(task.getId(), name, description);
         System.out.println("[OK]");
         return 0;
     }
@@ -156,7 +156,7 @@ public class TaskController extends AbstractController {
             return -1;
         }
         final Long id = scanner.nextLong();
-        final Task task = taskRepository.removeById(id);
+        final Task task = taskService.removeById(id);
         if (task == null) System.out.println("[FAIL]");
         else System.out.println("[OK]");
         return 0;
@@ -171,7 +171,7 @@ public class TaskController extends AbstractController {
             return -1;
         }
         final int index = scanner.nextInt() - 1;
-        final Task task = taskRepository.removeByIndex(index);
+        final Task task = taskService.removeByIndex(index);
         if (task == null) System.out.println("[FAIL]");
         else System.out.println("[OK]");
         return 0;
@@ -181,7 +181,7 @@ public class TaskController extends AbstractController {
         System.out.println("[REMOVE TASK BY NAME]");
         System.out.println("PLEASE, ENTER TASK NAME");
         final String name = scanner.nextLine();
-        final Task task = taskRepository.removeByName(name);
+        final Task task = taskService.removeByName(name);
         if (task == null) System.out.println("[FAIL]");
         else System.out.println("[OK]");
         return 0;
