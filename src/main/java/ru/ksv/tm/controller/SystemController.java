@@ -48,6 +48,9 @@ public class SystemController {
         System.out.println("task-update-by-id - Update task by id.");
         System.out.println("task-update-by-index - Update task by index.");
         System.out.println("task-update-by-name - Update task by name.");
+        System.out.println("task-list-by-project-id - Display task list by project id");
+        System.out.println("task-add-to-project-by-ids - Add task to project by ids");
+        System.out.println("task-remove-form-project-by-ids - Remove task from project by id");
         return 0;
     }
 

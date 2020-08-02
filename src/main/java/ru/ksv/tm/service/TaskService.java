@@ -68,4 +68,14 @@ public class TaskService {
         if (name == null || name.isEmpty()) return null;
         return taskRepository.removeByName(name);
     }
+    public Task findByProjectIdAndId(Long projectId, Long id) {
+        if (projectId == null || id == null) return null;
+        return taskRepository.findByProjectIdAndId(projectId, id);
+    }
+
+    public List<Task> findAllByProjectId(Long projectId) {
+        if (projectId == null) return null;
+        return taskRepository.findAllByProjectId(projectId);
+    }
+
 }

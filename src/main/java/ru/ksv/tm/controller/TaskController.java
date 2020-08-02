@@ -2,13 +2,19 @@ package ru.ksv.tm.controller;
 
 import ru.ksv.tm.entity.Task;
 import ru.ksv.tm.service.TaskService;
+import ru.ksv.tm.service.ProjectTaskService;
+
+import java.util.List;
 
 public class TaskController extends AbstractController {
 
     private final TaskService taskService;
 
-    public TaskController(TaskService taskService) {
+    private final ProjectTaskService projectTaskService;
+
+    public TaskController(TaskService taskService, ProjectTaskService projectTaskService) {
         this.taskService = taskService;
+        this.projectTaskService = projectTaskService;
     }
 
     public int createTask() {
@@ -156,6 +162,7 @@ public class TaskController extends AbstractController {
             return -1;
         }
         final Long id = scanner.nextLong();
+        scanner.nextLine();
         final Task task = taskService.removeById(id);
         if (task == null) System.out.println("[FAIL]");
         else System.out.println("[OK]");
@@ -171,6 +178,7 @@ public class TaskController extends AbstractController {
             return -1;
         }
         final int index = scanner.nextInt() - 1;
+        scanner.nextLine();
         final Task task = taskService.removeByIndex(index);
         if (task == null) System.out.println("[FAIL]");
         else System.out.println("[OK]");
@@ -184,6 +192,77 @@ public class TaskController extends AbstractController {
         final Task task = taskService.removeByName(name);
         if (task == null) System.out.println("[FAIL]");
         else System.out.println("[OK]");
+        return 0;
+    }
+
+    public void viewTasks(final List<Task> tasks){
+        if (tasks == null || tasks.isEmpty()) return;
+        int index = 1;
+        for (final Task task : tasks) {
+            System.out.println(index + ". " + task.getId() + ": " + task.getName() + " [DESC: " + task.getDescription() + "]");
+            index++;
+        }
+    }
+
+    public int listTaskByProjectId(){
+        System.out.println("[LIST TASK BY PROJECT]");
+        System.out.println("PLEASE, ENTER PROJECT ID:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long projectId = scanner.nextLong();
+        scanner.nextLine();
+        final List<Task> tasks = taskService.findAllByProjectId(projectId);
+        viewTasks(tasks);
+        System.out.println("[OK]");
+        return 0;
+    }
+
+    public int addTaskToProjectByIds(){
+        System.out.println("[ADD TASK TO PROJECT BY IDS]");
+        System.out.println("PLEASE, ENTER PROJECT ID:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long projectId = scanner.nextLong();
+        scanner.nextLine();
+        System.out.println("PLEASE, ENTER TASK ID:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long taskId = scanner.nextLong();
+        scanner.nextLine();
+        projectTaskService.addTaskToProject(projectId, taskId);
+        System.out.println("[OK]");
+        return 0;
+    }
+
+    public int removeTaskFromProjectByIds(){
+        System.out.println("[REMOVE TASK FROM PROJECT BY IDS]");
+        System.out.println("Please, enter project id:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long projectId = scanner.nextLong();
+        scanner.nextLine();
+        System.out.println("Please, enter task id:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long taskId = scanner.nextLong();
+        scanner.nextLine();
+        projectTaskService.removeTaskToProject(projectId, taskId);
+        System.out.println("[OK]");
         return 0;
     }
 

@@ -55,6 +55,7 @@ public class ProjectController extends AbstractController {
             return -1;
         }
         final Long id = scanner.nextLong();
+        scanner.nextLine();
         final Project project = projectService.findById(id);
         viewProject(project);
         return 0;
@@ -68,6 +69,7 @@ public class ProjectController extends AbstractController {
             return -1;
         }
         final int index = scanner.nextInt() - 1;
+        scanner.nextLine();
         final Project project = projectService.findByIndex(index);
         viewProject(project);
         return 0;
@@ -156,6 +158,7 @@ public class ProjectController extends AbstractController {
             return -1;
         }
         final Long id = scanner.nextLong();
+        scanner.nextLine();
         final Project project = projectService.removeById(id);
         if (project == null) System.out.println("[FAIL]");
         else System.out.println("[OK]");
@@ -171,6 +174,7 @@ public class ProjectController extends AbstractController {
             return -1;
         }
         final int index = scanner.nextInt() - 1;
+        scanner.nextLine();
         final Project project = projectService.removeByIndex(index);
         if (project == null) System.out.println("[FAIL]");
         else System.out.println("[OK]");
