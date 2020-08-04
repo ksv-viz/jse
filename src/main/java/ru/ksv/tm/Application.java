@@ -3,11 +3,14 @@ package ru.ksv.tm;
 import ru.ksv.tm.controller.SystemController;
 import ru.ksv.tm.controller.ProjectController;
 import ru.ksv.tm.controller.TaskController;
+import ru.ksv.tm.controller.UserController;
 import ru.ksv.tm.repository.ProjectRepository;
 import ru.ksv.tm.repository.TaskRepository;
+import ru.ksv.tm.repository.UserRepository;
 import ru.ksv.tm.service.ProjectService;
 import ru.ksv.tm.service.TaskService;
 import ru.ksv.tm.service.ProjectTaskService;
+import ru.ksv.tm.service.UserService;
 
 import java.util.Scanner;
 
@@ -19,17 +22,23 @@ public class Application {
 
     private final TaskRepository taskRepository = new TaskRepository();
 
+    private final UserRepository userRepository = new UserRepository();
+
     private final ProjectService projectService = new ProjectService(projectRepository);
 
     private final TaskService taskService = new TaskService(taskRepository);
 
     private final ProjectTaskService projectTaskService = new ProjectTaskService(projectRepository, taskRepository);
 
+    private final UserService userService = new UserService(userRepository);
+
     private final ProjectController projectController = new ProjectController(projectService);
 
     private final TaskController taskController = new TaskController(taskService, projectTaskService);
 
     private final SystemController systemController = new SystemController();
+
+    private final UserController userController = new UserController(userService);
 
     {
         projectRepository.create("PROJECT 1", "DESCRIPTION 1");
@@ -110,6 +119,12 @@ public class Application {
             case TASK_LIST_BY_PROJECT_ID: return taskController.listTaskByProjectId();
             case TASK_ADD_TO_PROJECT_BY_IDS: return taskController.addTaskToProjectByIds();
             case TASK_REMOVE_FROM_PROJECT_BY_IDS : return taskController.removeTaskFromProjectByIds();
+
+            case USER_CREATE: return userController.createUser();
+            case USER_CLEAR: return userController.clearUser();
+            case USER_LIST: return userController.listUser();
+            case USER_UPDATE: return userController.updateUser();
+            case USER_REMOVE: return userController.removeUser();
 
             default: return systemController.displayError(param);
         }

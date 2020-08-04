@@ -36,5 +36,10 @@ public class TerminalConst {
     public static final String TASK_ADD_TO_PROJECT_BY_IDS = "task-add-to-project-by-ids";
     public static final String TASK_REMOVE_FROM_PROJECT_BY_IDS = "task-remove-from-project-by-ids";
 
+    public static final String USER_CREATE = "user-create";
+    public static final String USER_CLEAR = "user-clear";
+    public static final String USER_LIST = "user-list";
+    public static final String USER_UPDATE = "user-update";
+    public static final String USER_REMOVE = "user-remove";
 
 }
