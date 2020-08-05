@@ -21,6 +21,10 @@ public class UserService {
         return userRepository.create(loginName, lastName, firstName, middleName);
     }
 
+    public User create(String loginName, String lastName, String firstName, String middleName, String description) {
+        return userRepository.create(loginName, lastName, firstName, middleName, description);
+    }
+
     public User update(String loginName, String lastName, String firstName, String middleName, String description) {
         return userRepository.update(loginName, lastName, firstName, middleName, description);
     }

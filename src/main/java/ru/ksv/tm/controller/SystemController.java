@@ -72,6 +72,15 @@ public class SystemController {
         System.exit(0);
         return 0;
     }
+    public int displayErrorLogon() {
+        System.out.println("Login error");
+        System.out.println("Possible reasons for the error:");
+        System.out.println("Wrong password");
+        System.out.println("Invalid user name");
+        System.out.println("Unregistered user");
+        return -1;
+    }
+
 
 
 }

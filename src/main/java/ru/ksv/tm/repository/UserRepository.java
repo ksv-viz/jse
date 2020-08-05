@@ -25,6 +25,17 @@ public class UserRepository {
         return user;
     }
 
+    public User create(final String loginName, final String lastName, final String firstName, final String middleName, final String description) {
+        final User user = new User();
+        user.setLoginName(loginName);
+        user.setFirstName(firstName);
+        user.setMiddleName(middleName);
+        user.setLastName(lastName);
+        user.setDescription(description);
+        users.add(user);
+        return user;
+    }
+
     public User update(final String loginName, final String lastName, final String firstName, final String middleName, final String description) {
         final User user = findByLoginName(loginName);
         if (user == null) return null;

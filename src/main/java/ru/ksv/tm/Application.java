@@ -13,6 +13,7 @@ import ru.ksv.tm.service.ProjectTaskService;
 import ru.ksv.tm.service.UserService;
 
 import java.util.Scanner;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import static ru.ksv.tm.constant.TerminalConst.*;
 
@@ -56,6 +57,13 @@ public class Application {
         projectTaskService.addTaskToProject(projectService.findByIndex(2).getId(), taskService.findByIndex(2).getId());
         projectTaskService.addTaskToProject(projectService.findByIndex(4).getId(), taskService.findByIndex(3).getId());
         projectTaskService.addTaskToProject(projectService.findByIndex(4).getId(), taskService.findByIndex(1).getId());
+        userService.create("admin","Иванов", "Иван", "Иванович", "Комбайнёр");
+        userService.create("quest","Петров", "Пётр", "Петрович", "Прохожий");
+        userService.create("vasechkin_vv","Васечкин", "Василий", "Васильевич", "Кузнец");
+        userService.create("sidorov_ss","Сидоров", "Сидор", "Сидорович", "Пастух");
+
+
+        System.out.println(DigestUtils.md5Hex("Test"));
     }
 
     public static void main(final String[] args) {
@@ -68,6 +76,7 @@ public class Application {
     private void process(final Application application) {
         final Scanner scanner = new Scanner(System.in);
         String command = "";
+        if (userController.logonUser() != 0) systemController.displayErrorLogon();
         while (!EXIT.equals(command)) {
             command = scanner.nextLine();
             application.run(command);

@@ -11,6 +11,16 @@ public class UserController extends AbstractController {
         this.userService = userService;
     }
 
+    public int logonUser() {
+        System.out.println("PLEASE, ENTER USER LOGIN:");
+        final String loginName = scanner.nextLine();
+        System.out.println("PLEASE, ENTER USER PASSWORD:");
+        final String loginPassword = scanner.nextLine();
+        System.out.println("User: "+ loginName+", Password: "+ loginPassword);
+        if (userService.findByLoginName(loginName) == null) return -1;
+        return 0;
+    };
+
     public int createUser() {
         System.out.println("[CREATE USER]");
         System.out.println("PLEASE, ENTER USER LOGIN:");
