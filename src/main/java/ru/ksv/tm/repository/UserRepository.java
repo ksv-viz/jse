@@ -1,10 +1,13 @@
 package ru.ksv.tm.repository;
 
-import ru.ksv.tm.entity.Project;
 import ru.ksv.tm.entity.User;
+import ru.ksv.tm.enumerated.Role;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import java.util.ArrayList;
 import java.util.List;
+
+import static ru.ksv.tm.constant.TerminalConst.*;
 
 public class UserRepository {
     private final List<User> users = new ArrayList<>();
@@ -18,6 +21,8 @@ public class UserRepository {
     public User create(final String loginName, final String lastName, final String firstName, final String middleName) {
         final User user = new User();
         user.setLoginName(loginName);
+        user.setPasswordHash(DigestUtils.md5Hex(DEFAULT_PASSWORD));
+        user.setUserRole(DEFAULT_ROLE);
         user.setFirstName(firstName);
         user.setMiddleName(middleName);
         user.setLastName(lastName);
@@ -28,6 +33,8 @@ public class UserRepository {
     public User create(final String loginName, final String lastName, final String firstName, final String middleName, final String description) {
         final User user = new User();
         user.setLoginName(loginName);
+        user.setPasswordHash(DigestUtils.md5Hex(DEFAULT_PASSWORD));
+        user.setUserRole(DEFAULT_ROLE);
         user.setFirstName(firstName);
         user.setMiddleName(middleName);
         user.setLastName(lastName);
@@ -36,8 +43,8 @@ public class UserRepository {
         return user;
     }
 
-    public User update(final String loginName, final String lastName, final String firstName, final String middleName, final String description) {
-        final User user = findByLoginName(loginName);
+    public User update(final Long id, final String loginName, final String firstName, final String middleName, final String lastName, final String description) {
+        final User user = findById(id);
         if (user == null) return null;
         user.setLoginName(loginName);
         user.setFirstName(firstName);
@@ -47,12 +54,57 @@ public class UserRepository {
         return user;
     }
 
+    public User updatePasswordByLoginName(final String loginName, final String password) {
+        final User user = findByLoginName(loginName);
+        if (user == null) return null;
+        user.setPasswordHash(DigestUtils.md5Hex(password));
+        return user;
+    }
+
+    public User updatePasswordById(final Long id, final String password) {
+        final User user = findById(id);
+        if (user == null) return null;
+        user.setPasswordHash(DigestUtils.md5Hex(password));
+        return user;
+    }
+
+    public User updatePasswordByIndex(final int index, final String password) {
+        final User user = findByIndex(index);
+        if (user == null) return null;
+        user.setPasswordHash(DigestUtils.md5Hex(password));
+        return user;
+    }
+
+    public User updateRoleByLoginName(final String loginName, final Role role) {
+        final User user = findByLoginName(loginName);
+        if (user == null) return null;
+        user.setUserRole(role);
+        return user;
+    }
+
+    public User updateRoleById(final Long id, final Role role) {
+        final User user = findById(id);
+        if (user == null) return null;
+        user.setUserRole(role);
+        return user;
+    }
+
+    public User updateRoleByIndex(final int index, final Role role) {
+        final User user = findByIndex(index);
+        if (user == null) return null;
+        user.setUserRole(role);
+        return user;
+    }
+
     public void clear() {
         users.clear();
     }
 
-    public List<User> findAll() {
-        return users;
+    public User findById(final Long id) {
+        for (User user : users) {
+            if (user.getId().equals(id)) return user;
+        }
+        return null;
     }
 
     public User findByLoginName(final String loginName) {
@@ -62,11 +114,33 @@ public class UserRepository {
         return null;
     }
 
+    public User findByIndex(final int index) {
+        return users.get(index);
+    }
+
+    public User removeById(final Long id) {
+        final User user = findById(id);
+        if (user == null) return null;
+        users.remove(user);
+        return user;
+    }
+
+    public User removeByIndex(final int index) {
+        final User user = findByIndex(index);
+        if (user == null) return null;
+        users.remove(user);
+        return user;
+    }
+
     public User removeByLoginName(final String loginName) {
         final User user = findByLoginName(loginName);
         if (user == null) return null;
         users.remove(user);
         return user;
+    }
+
+    public List<User> findAll() {
+        return users;
     }
 
 }

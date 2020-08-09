@@ -4,6 +4,7 @@ import ru.ksv.tm.controller.SystemController;
 import ru.ksv.tm.controller.ProjectController;
 import ru.ksv.tm.controller.TaskController;
 import ru.ksv.tm.controller.UserController;
+import ru.ksv.tm.enumerated.Role;
 import ru.ksv.tm.repository.ProjectRepository;
 import ru.ksv.tm.repository.TaskRepository;
 import ru.ksv.tm.repository.UserRepository;
@@ -12,8 +13,8 @@ import ru.ksv.tm.service.TaskService;
 import ru.ksv.tm.service.ProjectTaskService;
 import ru.ksv.tm.service.UserService;
 
+import java.util.Arrays;
 import java.util.Scanner;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import static ru.ksv.tm.constant.TerminalConst.*;
 
@@ -42,28 +43,33 @@ public class Application {
     private final UserController userController = new UserController(userService);
 
     {
-        projectRepository.create("PROJECT 1", "DESCRIPTION 1");
-        projectRepository.create("PROJECT 2", "DESCRIPTION 2");
-        projectRepository.create("PROJECT 3", "DESCRIPTION 3");
-        projectRepository.create("PROJECT 4", "DESCRIPTION 4");
-        projectRepository.create("PROJECT 5", "DESCRIPTION 5");
-        taskRepository.create("TASK 1", "DESCRIPTION 1");
-        taskRepository.create("TASK 2", "DESCRIPTION 2");
-        taskRepository.create("TASK 3", "DESCRIPTION 3");
-        taskRepository.create("TASK 4", "DESCRIPTION 4");
-        taskRepository.create("TASK 5", "DESCRIPTION 5");
+        projectService.create("PROJECT 1", "DESCRIPTION 1");
+        projectService.create("PROJECT 2", "DESCRIPTION 2");
+        projectService.create("PROJECT 3", "DESCRIPTION 3");
+        projectService.create("PROJECT 4", "DESCRIPTION 4");
+        projectService.create("PROJECT 5", "DESCRIPTION 5");
+
+        taskService.create("TASK 1", "DESCRIPTION 1");
+        taskService.create("TASK 2", "DESCRIPTION 2");
+        taskService.create("TASK 3", "DESCRIPTION 3");
+        taskService.create("TASK 4", "DESCRIPTION 4");
+        taskService.create("TASK 5", "DESCRIPTION 5");
+
         projectTaskService.addTaskToProject(projectService.findByIndex(0).getId(), taskService.findByIndex(0).getId());
         projectTaskService.addTaskToProject(projectService.findByIndex(0).getId(), taskService.findByIndex(4).getId());
         projectTaskService.addTaskToProject(projectService.findByIndex(2).getId(), taskService.findByIndex(2).getId());
         projectTaskService.addTaskToProject(projectService.findByIndex(4).getId(), taskService.findByIndex(3).getId());
         projectTaskService.addTaskToProject(projectService.findByIndex(4).getId(), taskService.findByIndex(1).getId());
+
         userService.create("admin","Иванов", "Иван", "Иванович", "Комбайнёр");
         userService.create("quest","Петров", "Пётр", "Петрович", "Прохожий");
         userService.create("vasechkin_vv","Васечкин", "Василий", "Васильевич", "Кузнец");
         userService.create("sidorov_ss","Сидоров", "Сидор", "Сидорович", "Пастух");
-
-
-        System.out.println(DigestUtils.md5Hex("Test"));
+        userService.updateRoleByLoginName("admin", Role.ADMIN);
+        userService.updateRoleByLoginName("vasechkin_vv", Role.USER);
+        userService.updateRoleByLoginName("sidorov_ss", Role.USER);
+        userService.updatePasswordByLoginName("admin", "admin");
+        userService.updatePasswordByLoginName("quest", "quest");
     }
 
     public static void main(final String[] args) {
@@ -132,8 +138,21 @@ public class Application {
             case USER_CREATE: return userController.createUser();
             case USER_CLEAR: return userController.clearUser();
             case USER_LIST: return userController.listUser();
-            case USER_UPDATE: return userController.updateUser();
-            case USER_REMOVE: return userController.removeUser();
+            case USER_VIEW_BY_ID: return userController.viewUserById();
+            case USER_VIEW_BY_INDEX: return userController.viewUserByIndex();
+            case USER_VIEW_BY_LOGIN_NAME: return userController.viewUserByLoginName();
+            case USER_UPDATE_BY_ID: return userController.updateUserById();
+            case USER_UPDATE_BY_INDEX: return userController.updateUserByIndex();
+            case USER_UPDATE_BY_LOGIN_NAME: return userController.updateUserByLoginName();
+            case USER_REMOVE_BY_ID: return userController.removeUserById();
+            case USER_REMOVE_BY_INDEX: return userController.removeUserByIndex();
+            case USER_REMOVE_BY_LOGIN_NAME: return userController.removeByLoginName();
+            case USER_UPDATE_PASSWORD_BY_ID: return userController.updatePasswordById();
+            case USER_UPDATE_PASSWORD_BY_INDEX: return userController.updatePasswordByIndex();
+            case USER_UPDATE_PASSWORD_BY_LOGIN_NAME: return userController.updatePasswordByLoginName();
+            case USER_UPDATE_ROLE_BY_ID: return userController.updateRoleById();
+            case USER_UPDATE_ROLE_BY_INDEX: return userController.updateRoleByIndex();
+            case USER_UPDATE_ROLE_BY_LOGIN_NAME: return userController.updateRoleByLoginName();
 
             default: return systemController.displayError(param);
         }

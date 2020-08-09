@@ -1,10 +1,16 @@
 package ru.ksv.tm.entity;
 
+import ru.ksv.tm.enumerated.Role;
+
 public class User {
 
-    private String loginName = "";
+    private Long id = System.nanoTime();
 
-    private String passwordHash = "";
+    private String loginName;
+
+    private String passwordHash;
+
+    private Role userRole = Role.QIEST;
 
     private String firstName = "";
 
@@ -21,12 +27,12 @@ public class User {
         this.loginName = loginName;
     }
 
-    public String getDescription() {
-        return description;
+    public Long getId() {
+        return id;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLoginName() {
@@ -43,6 +49,14 @@ public class User {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public Role getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(Role userRole) {
+        this.userRole = userRole;
     }
 
     public String getFirstName() {
@@ -67,6 +81,14 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

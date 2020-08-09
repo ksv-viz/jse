@@ -1,6 +1,11 @@
 package ru.ksv.tm.constant;
 
+import ru.ksv.tm.enumerated.Role;
+
 public class TerminalConst {
+
+    public static final String DEFAULT_PASSWORD = "to_change";
+    public static final Role DEFAULT_ROLE = Role.QIEST;
 
     public static final String HELP = "help";
     public static final String VERSION = "version";
@@ -39,7 +44,20 @@ public class TerminalConst {
     public static final String USER_CREATE = "user-create";
     public static final String USER_CLEAR = "user-clear";
     public static final String USER_LIST = "user-list";
-    public static final String USER_UPDATE = "user-update";
-    public static final String USER_REMOVE = "user-remove";
+    public static final String USER_VIEW_BY_ID = "user-view-by-id";
+    public static final String USER_VIEW_BY_INDEX = "user-view-by-index";
+    public static final String USER_VIEW_BY_LOGIN_NAME = "user-view-by-login-name";
+    public static final String USER_UPDATE_BY_ID = "user-update-by-id";
+    public static final String USER_UPDATE_BY_INDEX = "user-update-by-index";
+    public static final String USER_UPDATE_BY_LOGIN_NAME = "user-update-by-login-name";
+    public static final String USER_REMOVE_BY_ID = "user-remove-by-id";
+    public static final String USER_REMOVE_BY_INDEX = "user-remove-by-index";
+    public static final String USER_REMOVE_BY_LOGIN_NAME = "user-remove-by-login-name";
+    public static final String USER_UPDATE_PASSWORD_BY_ID = "user-update-password-by-id";
+    public static final String USER_UPDATE_PASSWORD_BY_INDEX = "user-update-password-by-index";
+    public static final String USER_UPDATE_PASSWORD_BY_LOGIN_NAME = "user-update-password-by-login-name";
+    public static final String USER_UPDATE_ROLE_BY_ID = "user-update-role-by-id";
+    public static final String USER_UPDATE_ROLE_BY_INDEX = "user-update-role-by-index";
+    public static final String USER_UPDATE_ROLE_BY_LOGIN_NAME = "user-update-role-by-login-name";
 
 }
