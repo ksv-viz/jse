@@ -57,6 +57,7 @@ public class SystemController {
         System.out.println("user-create - Create new user.");
         System.out.println("user-clear - Remove all users.");
         System.out.println("user-list - Display list of users.");
+        System.out.println("user-view-current - View current user.");
         System.out.println("user-view-by-id - View user by id.");
         System.out.println("user-view-by-index - View user by index.");
         System.out.println("user-view-by-login-name - View user by login name.");
@@ -66,6 +67,7 @@ public class SystemController {
         System.out.println("user-update-by-id - Update user by id.");
         System.out.println("user-update-by-index - Update user by index.");
         System.out.println("user-update-by-login-name - Update user by login name.");
+        System.out.println("user-update-password - Update password by current user.");
         System.out.println("user-update-password-by-id - Update user password by id.");
         System.out.println("user-update-password-by-index - Update user password by index.");
         System.out.println("user-update-password-by-login-name - Update password user by login name.");

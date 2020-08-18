@@ -44,6 +44,7 @@ public class TerminalConst {
     public static final String USER_CREATE = "user-create";
     public static final String USER_CLEAR = "user-clear";
     public static final String USER_LIST = "user-list";
+    public static final String USER_VIEW_CURRENT = "user-view-current";
     public static final String USER_VIEW_BY_ID = "user-view-by-id";
     public static final String USER_VIEW_BY_INDEX = "user-view-by-index";
     public static final String USER_VIEW_BY_LOGIN_NAME = "user-view-by-login-name";
@@ -53,6 +54,7 @@ public class TerminalConst {
     public static final String USER_REMOVE_BY_ID = "user-remove-by-id";
     public static final String USER_REMOVE_BY_INDEX = "user-remove-by-index";
     public static final String USER_REMOVE_BY_LOGIN_NAME = "user-remove-by-login-name";
+    public static final String USER_UPDATE_PASSWORD = "user-update-password";
     public static final String USER_UPDATE_PASSWORD_BY_ID = "user-update-password-by-id";
     public static final String USER_UPDATE_PASSWORD_BY_INDEX = "user-update-password-by-index";
     public static final String USER_UPDATE_PASSWORD_BY_LOGIN_NAME = "user-update-password-by-login-name";

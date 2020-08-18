@@ -117,6 +117,16 @@ public class UserController extends AbstractController {
         return 0;
     }
 
+    public int viewCurrentUser(Long id) {
+        if (id == null){
+            System.out.println("NOT LOGON");
+            System.out.println("FAIL");
+        }
+        final User user = userService.findById(id);
+        viewUser(user);
+        return 0;
+    }
+
     public int updateUserById() {
         System.out.println("[UPDATE USER BY ID]");
         System.out.println("PLEASE, ENTER USER ID");
@@ -298,6 +308,25 @@ public class UserController extends AbstractController {
         System.out.println("ENTER NEW PASSWORD");
         final String password = scanner.nextLine();
         userService.updatePasswordByIndex(index, password);
+        return 0;
+    }
+
+    public int updatePasswordCurrentUser(Long id) {
+        final User user = userService.findById(id);
+        if (user == null) {
+            System.out.println("NOT LOGON");
+            System.out.println("[FAIL]");
+            return 0;
+        }
+        System.out.println("ENTER OLD PASSWORD");
+        final String oldPassword = scanner.nextLine();
+        if (!user.getPasswordHash().equals(SaltHash.getHash(oldPassword))) {
+            System.out.println("[FAIL]");
+            return 0;
+        }
+        System.out.println("ENTER NEW PASSWORD");
+        final String password = scanner.nextLine();
+        userService.updatePasswordById(id, password);
         return 0;
     }
 

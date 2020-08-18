@@ -158,6 +158,8 @@ public class Application {
             case USER_UPDATE_ROLE_BY_ID: return userController.updateRoleById();
             case USER_UPDATE_ROLE_BY_INDEX: return userController.updateRoleByIndex();
             case USER_UPDATE_ROLE_BY_LOGIN_NAME: return userController.updateRoleByLoginName();
+            case USER_UPDATE_PASSWORD: return userController.updatePasswordCurrentUser(sessionId);
+            case USER_VIEW_CURRENT: return  userController.viewCurrentUser(sessionId);
 
             case USER_LOGON: {
                 sessionId = userController.logonUser();
