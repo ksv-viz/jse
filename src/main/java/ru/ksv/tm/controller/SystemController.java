@@ -18,6 +18,8 @@ public class SystemController {
     }
 
     public int displayHelp() {
+        System.out.println("user-logon - Logon user to application");
+        System.out.println("user-logout - Logout user from application");
         System.out.println("version - Display application version.");
         System.out.println("about - Display developer info.");
         System.out.println("help - Display list of commands.");
@@ -70,6 +72,13 @@ public class SystemController {
         System.out.println("user-update-role-by-id - Update user role by id.");
         System.out.println("user-update-role-by-index - Update user role by index.");
         System.out.println("user-update-role-by-login-name - Update user role by login name.");
+        System.out.println();
+        System.out.println("project-list-by-user-id - Display project list by user id");
+        System.out.println("project-add-to-user-by-ids - Add project to user by ids");
+        System.out.println("project-remove-from-user-by-ids - Remove project from user by id");
+        System.out.println("task-list-by-user-id - Display task list by user id");
+        System.out.println("task-add-to-user-by-ids - Add task to user by ids");
+        System.out.println("task-remove-from-user-by-ids - Remove task from user by id");
 
         return 0;
     }
@@ -86,15 +95,5 @@ public class SystemController {
         System.exit(0);
         return 0;
     }
-    public int displayErrorLogon() {
-        System.out.println("Login error");
-        System.out.println("Possible reasons for the error:");
-        System.out.println("Wrong password");
-        System.out.println("Invalid user name");
-        System.out.println("Unregistered user");
-        return -1;
-    }
-
-
 
 }

@@ -36,9 +36,6 @@ public class TaskRepository {
         tasks.clear();
     }
 
-    public List<Task> findAll() {
-        return tasks;
-    }
 
     public Task findById(final Long id) {
         for (Task task : tasks) {
@@ -81,7 +78,7 @@ public class TaskRepository {
 
     public List<Task> findAllByProjectId(final Long projectId){
         final List<Task> result = new ArrayList<>();
-        for (final Task task: findALL()){
+        for (final Task task: findAll()){
             final Long idProject = task.getProjectId();
             if (idProject == null) continue;
             if (idProject.equals(projectId)) result.add(task);
@@ -100,7 +97,28 @@ public class TaskRepository {
         return null;
     }
 
-    public List<Task> findALL() {
+    public List<Task> findAllByUserId(final Long userId){
+        final List<Task> result = new ArrayList<>();
+        for (final Task task: findAll()){
+            final Long idUser = task.getUserId();
+            if (idUser == null) continue;
+            if (idUser.equals(userId)) result.add(task);
+        }
+        return result;
+    }
+
+    public Task findByUserIdAndId(final Long userId, final Long id) {
+        if (id == null) return null;
+        for (final Task task: tasks) {
+            final Long idUser = task.getUserId();
+            if (idUser == null) continue;
+            if (!idUser.equals(userId)) continue;
+            if (task.getId().equals(id)) return task;
+        }
+        return null;
+    }
+
+    public List<Task> findAll() {
         return tasks;
     }
 

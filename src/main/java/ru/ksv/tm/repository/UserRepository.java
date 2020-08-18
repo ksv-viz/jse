@@ -3,7 +3,8 @@ package ru.ksv.tm.repository;
 import ru.ksv.tm.entity.User;
 import ru.ksv.tm.enumerated.Role;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import ru.ksv.tm.utils.SaltHash;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class UserRepository {
     public User create(final String loginName, final String lastName, final String firstName, final String middleName) {
         final User user = new User();
         user.setLoginName(loginName);
-        user.setPasswordHash(DigestUtils.md5Hex(DEFAULT_PASSWORD));
+        user.setPasswordHash(SaltHash.getHash(DEFAULT_PASSWORD));
         user.setUserRole(DEFAULT_ROLE);
         user.setFirstName(firstName);
         user.setMiddleName(middleName);
@@ -33,7 +34,7 @@ public class UserRepository {
     public User create(final String loginName, final String lastName, final String firstName, final String middleName, final String description) {
         final User user = new User();
         user.setLoginName(loginName);
-        user.setPasswordHash(DigestUtils.md5Hex(DEFAULT_PASSWORD));
+        user.setPasswordHash(SaltHash.getHash(DEFAULT_PASSWORD));
         user.setUserRole(DEFAULT_ROLE);
         user.setFirstName(firstName);
         user.setMiddleName(middleName);
@@ -57,21 +58,21 @@ public class UserRepository {
     public User updatePasswordByLoginName(final String loginName, final String password) {
         final User user = findByLoginName(loginName);
         if (user == null) return null;
-        user.setPasswordHash(DigestUtils.md5Hex(password));
+        user.setPasswordHash(SaltHash.getHash(password));
         return user;
     }
 
     public User updatePasswordById(final Long id, final String password) {
         final User user = findById(id);
         if (user == null) return null;
-        user.setPasswordHash(DigestUtils.md5Hex(password));
+        user.setPasswordHash(SaltHash.getHash(password));
         return user;
     }
 
     public User updatePasswordByIndex(final int index, final String password) {
         final User user = findByIndex(index);
         if (user == null) return null;
-        user.setPasswordHash(DigestUtils.md5Hex(password));
+        user.setPasswordHash(SaltHash.getHash(password));
         return user;
     }
 

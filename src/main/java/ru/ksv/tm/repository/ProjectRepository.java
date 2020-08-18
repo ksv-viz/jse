@@ -1,6 +1,7 @@
 package ru.ksv.tm.repository;
 
 import ru.ksv.tm.entity.Project;
+import ru.ksv.tm.entity.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,4 +79,26 @@ public class ProjectRepository {
         projects.remove(project);
         return project;
     }
+
+    public List<Project> findAllByUserId(final Long userId){
+        final List<Project> result = new ArrayList<>();
+        for (final Project project: findAll()){
+            final Long idUser = project.getUserId();
+            if (idUser == null) continue;
+            if (idUser.equals(userId)) result.add(project);
+        }
+        return result;
+    }
+
+    public Project findByUserIdAndId(final Long userId, final Long id) {
+        if (id == null) return null;
+        for (final Project project: projects) {
+            final Long idUser = project.getUserId();
+            if (idUser == null) continue;
+            if (!idUser.equals(userId)) continue;
+            if (project.getId().equals(id)) return project;
+        }
+        return null;
+    }
+
 }

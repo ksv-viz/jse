@@ -4,7 +4,7 @@ import ru.ksv.tm.entity.User;
 import ru.ksv.tm.enumerated.Role;
 import ru.ksv.tm.service.UserService;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import ru.ksv.tm.utils.SaltHash;
 
 import java.util.Arrays;
 
@@ -16,14 +16,31 @@ public class UserController extends AbstractController {
         this.userService = userService;
     }
 
-    public int logonUser() {
+    public Long logonUser() {
+        int validLogon = 0;
         System.out.println("PLEASE, ENTER USER LOGIN:");
         final String loginName = scanner.nextLine();
         System.out.println("PLEASE, ENTER USER PASSWORD:");
         final String loginPassword = scanner.nextLine();
-        if (userService.findByLoginName(loginName) == null) return -1;
-        if (!userService.findByLoginName(loginName).getPasswordHash().equals(DigestUtils.md5Hex(loginPassword))) return -1;
-        return 0;
+        System.out.println();
+        if (userService.findByLoginName(loginName) == null) validLogon = -1;
+        if (loginName == null || loginName.isEmpty() ||
+                !userService.findByLoginName(loginName).getPasswordHash().equals(SaltHash.getHash(loginPassword)))
+            validLogon = -1;
+        if ( validLogon < 0) {
+            System.out.println("Login error");
+            System.out.println("Possible reasons for the error:");
+            System.out.println("Wrong password");
+            System.out.println("Invalid user name");
+            System.out.println("Unregistered user");
+            System.out.println("Wrong password");
+            return null;
+        }
+        return userService.findByLoginName(loginName).getId();
+    }
+
+    public Long logoutUser() {
+        return null;
     }
 
     public int createUser() {

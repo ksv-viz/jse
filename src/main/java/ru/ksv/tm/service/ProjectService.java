@@ -1,6 +1,7 @@
 package ru.ksv.tm.service;
 
 import ru.ksv.tm.entity.Project;
+import ru.ksv.tm.entity.Task;
 import ru.ksv.tm.repository.ProjectRepository;
 
 import java.util.List;
@@ -68,4 +69,10 @@ public class ProjectService {
         if (name == null || name.isEmpty()) return null;
         return projectRepository.removeByName(name);
     }
+
+    public List<Project> findAllByUserId(Long userId) {
+        if (userId == null) return null;
+        return projectRepository.findAllByUserId(userId);
+    }
+
 }

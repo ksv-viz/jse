@@ -3,6 +3,8 @@ package ru.ksv.tm.controller;
 import ru.ksv.tm.entity.Task;
 import ru.ksv.tm.service.TaskService;
 import ru.ksv.tm.service.ProjectTaskService;
+import ru.ksv.tm.service.UserProjectService;
+import ru.ksv.tm.service.UserTaskService;
 
 import java.util.List;
 
@@ -12,9 +14,12 @@ public class TaskController extends AbstractController {
 
     private final ProjectTaskService projectTaskService;
 
-    public TaskController(TaskService taskService, ProjectTaskService projectTaskService) {
+    private final UserTaskService userTaskService;
+
+    public TaskController(TaskService taskService, ProjectTaskService projectTaskService, UserTaskService userTaskService) {
         this.taskService = taskService;
         this.projectTaskService = projectTaskService;
+        this.userTaskService = userTaskService;
     }
 
     public int createTask() {
@@ -262,6 +267,67 @@ public class TaskController extends AbstractController {
         final Long taskId = scanner.nextLong();
         scanner.nextLine();
         projectTaskService.removeTaskToProject(projectId, taskId);
+        System.out.println("[OK]");
+        return 0;
+    }
+    public int listTaskByUserId(){
+        System.out.println("[LIST TASK BY USER]");
+        System.out.println("PLEASE, ENTER USER ID:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long userId = scanner.nextLong();
+        scanner.nextLine();
+        final List<Task> tasks = taskService.findAllByUserId(userId);
+        viewTasks(tasks);
+        System.out.println("[OK]");
+        return 0;
+    }
+
+    public int addTaskToUserByIds(){
+        System.out.println("[ADD TASK TO USER BY IDS]");
+        System.out.println("PLEASE, ENTER USER ID:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long userId = scanner.nextLong();
+        scanner.nextLine();
+        System.out.println("PLEASE, ENTER TASK ID:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long taskId = scanner.nextLong();
+        scanner.nextLine();
+        userTaskService.addTaskToUser(userId, taskId);
+        System.out.println("[OK]");
+        return 0;
+    }
+
+    public int removeTaskFromUserByIds(){
+        System.out.println("[REMOVE TASK FROM USER BY IDS]");
+        System.out.println("Please, enter user id:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long userId = scanner.nextLong();
+        scanner.nextLine();
+        System.out.println("Please, enter task id:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long taskId = scanner.nextLong();
+        scanner.nextLine();
+        userTaskService.removeTaskToUser(userId, taskId);
         System.out.println("[OK]");
         return 0;
     }

@@ -8,12 +8,8 @@ import ru.ksv.tm.enumerated.Role;
 import ru.ksv.tm.repository.ProjectRepository;
 import ru.ksv.tm.repository.TaskRepository;
 import ru.ksv.tm.repository.UserRepository;
-import ru.ksv.tm.service.ProjectService;
-import ru.ksv.tm.service.TaskService;
-import ru.ksv.tm.service.ProjectTaskService;
-import ru.ksv.tm.service.UserService;
+import ru.ksv.tm.service.*;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 import static ru.ksv.tm.constant.TerminalConst.*;
@@ -34,13 +30,20 @@ public class Application {
 
     private final UserService userService = new UserService(userRepository);
 
-    private final ProjectController projectController = new ProjectController(projectService);
+    private final UserProjectService userProjectService = new UserProjectService(userRepository, projectRepository);
 
-    private final TaskController taskController = new TaskController(taskService, projectTaskService);
+    private final UserTaskService userTaskService = new UserTaskService(userRepository, taskRepository);
+
+    private final ProjectController projectController = new ProjectController(projectService, userProjectService);
+
+    private final TaskController taskController = new TaskController(taskService, projectTaskService, userTaskService);
 
     private final SystemController systemController = new SystemController();
 
     private final UserController userController = new UserController(userService);
+
+    private Long sessionId;
+
 
     {
         projectService.create("PROJECT 1", "DESCRIPTION 1");
@@ -82,8 +85,10 @@ public class Application {
     private void process(final Application application) {
         final Scanner scanner = new Scanner(System.in);
         String command = "";
-        if (userController.logonUser() != 0) systemController.displayErrorLogon();
+        sessionId = userController.logonUser();
         while (!EXIT.equals(command)) {
+            if (sessionId != null) System.out.print(userService.findById(sessionId).getLoginName());
+            System.out.print(">");
             command = scanner.nextLine();
             application.run(command);
             System.out.println();
@@ -153,6 +158,28 @@ public class Application {
             case USER_UPDATE_ROLE_BY_ID: return userController.updateRoleById();
             case USER_UPDATE_ROLE_BY_INDEX: return userController.updateRoleByIndex();
             case USER_UPDATE_ROLE_BY_LOGIN_NAME: return userController.updateRoleByLoginName();
+
+            case USER_LOGON: {
+                sessionId = userController.logonUser();
+                return 0;
+            }
+            case USER_LOGOUT: {
+                sessionId = userController.logoutUser();
+                return 0;
+            }
+
+            case PROJECT_LIST_BY_USER_ID: return projectController.listProjectByUserId();
+            case PROJECT_ADD_TO_USER_BY_IDS: return projectController.addProjectToUserByIds();
+            case PROJECT_REMOVE_FROM_USER_BY_IDS: return projectController.removeProjectFromUserByIds();
+
+            case TASK_LIST_BY_USER_ID: return taskController.listTaskByUserId();
+            case TASK_ADD_TO_USER_BY_IDS: return taskController.addTaskToUserByIds();
+            case TASK_REMOVE_FROM_USER_BY_IDS: return taskController.removeTaskFromUserByIds();
+
+            case "test": {
+                System.out.println(sessionId);
+                if (sessionId != null) System.out.println(userService.findById(sessionId).getLoginName());
+                return 0;}
 
             default: return systemController.displayError(param);
         }

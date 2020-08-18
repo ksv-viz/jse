@@ -2,13 +2,19 @@ package ru.ksv.tm.controller;
 
 import ru.ksv.tm.entity.Project;
 import ru.ksv.tm.service.ProjectService;
+import ru.ksv.tm.service.UserProjectService;
+
+import java.util.List;
 
 public class ProjectController extends AbstractController {
 
     private final ProjectService projectService;
 
-    public ProjectController(ProjectService projectService) {
+    private final UserProjectService userProjectService;
+
+    public ProjectController(ProjectService projectService, UserProjectService userProjectService) {
         this.projectService = projectService;
+        this.userProjectService = userProjectService;
     }
 
     public int createProject() {
@@ -188,6 +194,77 @@ public class ProjectController extends AbstractController {
         final Project project = projectService.removeByName(name);
         if (project == null) System.out.println("[FAIL]");
         else System.out.println("[OK]");
+        return 0;
+    }
+
+    public void viewProjects(final List<Project> projects){
+        if (projects == null || projects.isEmpty()) return;
+        int index = 1;
+        for (final Project project : projects) {
+            System.out.println(index + ". " + project.getId() + ": " + project.getName() + " [DESC: " + project.getDescription() + "]");
+            index++;
+        }
+    }
+
+    public int listProjectByUserId(){
+        System.out.println("[LIST PROJECT BY USER]");
+        System.out.println("PLEASE, ENTER USER ID:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long userId = scanner.nextLong();
+        scanner.nextLine();
+        final List<Project> projects = projectService.findAllByUserId(userId);
+        viewProjects(projects);
+        System.out.println("[OK]");
+        return 0;
+    }
+
+    public int addProjectToUserByIds(){
+        System.out.println("[ADD PROJECT TO USER BY IDS]");
+        System.out.println("PLEASE, ENTER USER ID:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long userId = scanner.nextLong();
+        scanner.nextLine();
+        System.out.println("PLEASE, ENTER PROJECT ID:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long projectId = scanner.nextLong();
+        scanner.nextLine();
+        userProjectService.addProjectToUser(userId, projectId);
+        System.out.println("[OK]");
+        return 0;
+    }
+
+    public int removeProjectFromUserByIds(){
+        System.out.println("[REMOVE PROJECT FROM USER BY IDS]");
+        System.out.println("Please, enter user id:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long userId = scanner.nextLong();
+        scanner.nextLine();
+        System.out.println("Please, enter project id:");
+        if (!scanner.hasNextLong()) {
+            scanner.nextLine();
+            System.out.println("FAIL! IT'S NOT NUMBER");
+            return -1;
+        }
+        final Long projectId = scanner.nextLong();
+        scanner.nextLine();
+        userProjectService.removeProjectToUser(userId, projectId);
+        System.out.println("[OK]");
         return 0;
     }
 

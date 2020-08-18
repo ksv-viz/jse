@@ -78,4 +78,9 @@ public class TaskService {
         return taskRepository.findAllByProjectId(projectId);
     }
 
+    public List<Task> findAllByUserId(Long userId) {
+        if (userId == null) return null;
+        return taskRepository.findAllByUserId(userId);
+    }
+
 }
